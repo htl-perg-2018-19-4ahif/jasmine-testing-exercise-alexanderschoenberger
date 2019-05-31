@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { InvoiceLine, InvoiceCalculatorService, Invoice } from './invoice-calculator.service';
-import { VatCategory } from './vat-categories.service';
+import { VatCategory, VatCategoriesService } from './vat-categories.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +14,21 @@ export class AppComponent {
   product = '';
   priceInclusiveVat = 0;
   vatCategoryString = 'Food';
-
   vatCategories = VatCategory;
 
-  constructor(private invoiceCalculator: InvoiceCalculatorService) { }
+  constructor(private invoiceCalculator: InvoiceCalculatorService, private vatCategoriesService: VatCategoriesService) { }
 
   addInvoice() {
-    // ADD necessary code here
+    let category;
+    switch (this.vatCategoryString) {
+      case 'Food': category = VatCategory.Food; break;
+      case 'Drinks': category = VatCategory.Drinks;
+    }
+    const product: InvoiceLine = {
+      priceInclusiveVat: this.priceInclusiveVat,
+      product: this.product, vatCategory: category
+    };
+    this.invoiceLines.push(product);
+    this.invoice = this.invoiceCalculator.CalculateInvoice(this.invoiceLines);
   }
 }

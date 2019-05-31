@@ -110,7 +110,6 @@ describe('AppComponent', () => {
     app.addInvoice();
 
     fixture.detectChanges();
-
     const totalPriceInclusiveVatInput: HTMLTableDataCellElement = ne.querySelector('#totalPriceInclusiveVat');
     expect(totalPriceInclusiveVatInput.textContent).toBe('84.00');
     const totalPriceExclusiveVatInput: HTMLTableDataCellElement = ne.querySelector('#totalPriceExclusiveVat');
